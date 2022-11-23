@@ -4,18 +4,24 @@
 #include <HTTPClient.h>
 
 // pin variables
+
 const int actionPin = 22;
+const int redPin = 13;
+const int grnPin = 14;
+const int bluPin = 15;
 const int trigPin = 19;
 const int echoPin = 18;
 const int micPinDigital = 23;
 const int micPinAnalogue = 4;
 
 // stored variables for wifi setup
+
 const char *SSID = "Hajdinjak";
 const char *SSIDpassword = "7595zec590";
 int timeOutCount = 0;
 
 // variables for update(not yet implemented)
+
 const char *url;
 const char *host;
 const char *file;
@@ -23,14 +29,18 @@ String type = "Smart DogFeeder";
 const float currentVersion = 0.2;
 
 // stored variables for microphone (not yet implemented)
+
 int micValueDigi;
 int micValueAnalogue;
 
 // stored variables for distance senzor
+
+int distanceThreshold = 50;
 long distance;
 long duration;
 
 // variables to negate false positives
+
 bool distanceActive = false;
 bool soundActive = false;
 
@@ -53,16 +63,16 @@ long measureDistance()
   return distance;
 }
 
-// function that activates an LED;
-void engageLed()
+// function that activates an action tied to pin 22;
+void engageAction()
 {
   // Activate LED
   digitalWrite(actionPin, HIGH);
   delay(10);
 }
 
-// function that deactivates an LED;
-void disengageLed()
+// function that deactivates an action tied to pin 22;
+void disengageAction()
 {
   // Deactivate LED
   digitalWrite(actionPin, LOW);
@@ -81,7 +91,7 @@ bool isSomethingThereAndNoisy(bool noise, bool distance)
     return false;
   }
 }
-
+// Loop that continually checks the status of the microphone and changes bool depending on noise
 void micLoop()
 {
   if (digitalRead(micPinDigital) == HIGH)
@@ -94,10 +104,10 @@ void micLoop()
   }
 }
 
-// loop that continually measures the distance from the senzor and calls functions to activate/deactivate TBD depending on the argument forwarded
-void distanceLoop(int distanceThreshold)
+// loop that continually measures the distance from the senzor and calls functions to activate/deactivate TBD depending on the desired distance treshold
+void distanceLoop(int distanceThresh)
 {
-  if (measureDistance() < distanceThreshold)
+  if (measureDistance() < distanceThresh)
   {
     distanceActive = true;
   }
@@ -127,37 +137,69 @@ void connectToWifi()
   }
 }
 
+// Turns on the RGB led with amounts ranging from 0-255
+void controlRGB(int redAmount, int grnAmount, int bluAmount)
+{
+  analogWrite(redPin, redAmount);
+  analogWrite(grnPin, grnAmount);
+  analogWrite(bluAmount, bluAmount);
+}
+
+// test if RGB led works with changeable delay between each diode
+void testRGB(int delayAmount)
+{
+  analogWrite(redPin, 255);
+  delay(delayAmount);
+  analogWrite(redPin, 0);
+  delay(delayAmount);
+  analogWrite(grnPin, 255);
+  delay(delayAmount);
+  analogWrite(grnPin, 0);
+  delay(delayAmount);
+  analogWrite(bluPin, 255);
+  delay(delayAmount);
+  analogWrite(bluPin, 0);
+  delay(delayAmount);
+}
+// main loop that acutally starts off everything
+void workingLoop()
+{
+  if (isSomethingThereAndNoisy(soundActive, distanceActive))
+  {
+    controlRGB(255, 255, 255);
+  }
+  else
+  {
+    controlRGB(0, 0, 0);
+  }
+}
+
 void setup()
 {
   // serial monitoring
   Serial.begin(115200);
   Serial.println("Serial begin!");
-  // pin setup
+  // pin setup (distance sensor)
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  pinMode(actionPin, OUTPUT);
+  // pin setup microphone
   pinMode(micPinDigital, INPUT);
   pinMode(micPinAnalogue, INPUT);
+  // pin setup(rgb led)
+  pinMode(redPin, OUTPUT);
+  pinMode(grnPin, OUTPUT);
+  pinMode(bluPin, OUTPUT);
+  // pin setup(action pin)
+  pinMode(actionPin, OUTPUT);
 
   connectToWifi();
+  testRGB(250);
 }
 
 // main loop
 void loop()
 {
-  distanceLoop(50);
+  distanceLoop(distanceThreshold);
   micLoop();
-  if (isSomethingThereAndNoisy(soundActive, distanceActive))
-  {
-    engageLed();
-  }
-  else
-  {
-    disengageLed();
-  }
-  // if (WiFi.status() == WL_CONNECTED)
-  // {
-  //   Serial.println("Connected to wifi.");
-  //   delay(1000);
-  // }
+  workingLoop();
 }
