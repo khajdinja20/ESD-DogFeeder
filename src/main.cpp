@@ -30,6 +30,10 @@ int micValueAnalogue;
 long distance;
 long duration;
 
+// variables to negate false positives
+bool distanceActive = false;
+bool soundActive = false;
+
 // function that activates distance senzor and returns the distance in cm
 long measureDistance()
 {
@@ -65,16 +69,41 @@ void disengageLed()
   delay(10);
 }
 
+// function that checks if there is something in front of the distance senzor that is making noise, if YES it turns on an LED
+bool isSomethingThereAndNoisy(bool noise, bool distance)
+{
+  if (noise && distance)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+void micLoop()
+{
+  if (digitalRead(micPinDigital) == HIGH)
+  {
+    soundActive = true;
+  }
+  else
+  {
+    soundActive = false;
+  }
+}
+
 // loop that continually measures the distance from the senzor and calls functions to activate/deactivate TBD depending on the argument forwarded
 void distanceLoop(int distanceThreshold)
 {
   if (measureDistance() < distanceThreshold)
   {
-    engageLed();
+    distanceActive = true;
   }
   else
   {
-    disengageLed();
+    distanceActive = false;
   }
 }
 
@@ -117,10 +146,18 @@ void setup()
 void loop()
 {
   distanceLoop(50);
-
-  if (WiFi.status() == WL_CONNECTED)
+  micLoop();
+  if (isSomethingThereAndNoisy(soundActive, distanceActive))
   {
-    Serial.println("Connected to wifi.");
-    delay(1000);
+    engageLed();
   }
+  else
+  {
+    disengageLed();
+  }
+  // if (WiFi.status() == WL_CONNECTED)
+  // {
+  //   Serial.println("Connected to wifi.");
+  //   delay(1000);
+  // }
 }
