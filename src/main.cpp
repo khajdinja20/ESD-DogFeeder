@@ -7,6 +7,7 @@
 #include "config.h"
 #include "CommandDetector.h"
 #include "CommandProcessor.h"
+#include "ComponentCommands.h"
 
 // i2s config for using the internal ADC
 i2s_config_t adcI2SConfig = {
@@ -65,6 +66,17 @@ void setup()
   Serial.begin(115200);
   delay(1000);
   Serial.println("Starting up");
+  // pin setup (distance sensor)
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  // pin setup(rgb led)
+  pinMode(redPin, OUTPUT);
+  pinMode(grnPin, OUTPUT);
+  pinMode(bluPin, OUTPUT);
+  // pin setup(action pin)
+  pinMode(actionPin, OUTPUT);
+
+  testRGB(250);
 
   // make sure we don't get killed for our long running tasks
   esp_task_wdt_init(10, false);

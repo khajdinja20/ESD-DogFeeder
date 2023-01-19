@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "CommandProcessor.h"
+#include "ComponentCommands.h"
 
 const char *words[] = {
     "jedan",
@@ -12,7 +13,7 @@ void commandQueueProcessorTask(void *param)
     while (true)
     {
         uint16_t commandIndex = 0;
-        if (xQueueReceive(commandProcessor->m_command_queue_handle, &commandIndex, portMAX_DELAY) == pdTRUE)
+        if (xQueueReceive(commandProcessor->m_command_queue_handle, &commandIndex, portMAX_DELAY) == pdTRUE && isSomethingThere(distanceLoop(distanceThreshold)))
         {
             Serial.println("COMMANDQUEUEPROCESSORTASK");
             commandProcessor->processCommand(commandIndex);
@@ -25,24 +26,28 @@ void CommandProcessor::processCommand(uint16_t commandIndex)
     switch (commandIndex)
     {
     case 0:
-        analogWrite(13, 255);
+        // analogWrite(13, 255);
+        engageAction(); // Activate "servo"
+        controlRGB(255, 255, 255);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         break;
     case 1:
-        analogWrite(13, 0);
+        // analogWrite(13, 0);
         vTaskDelay(500 / portTICK_PERIOD_MS);
         break;
-        /*case 2:
-            analogWrite(14, 255);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
-            break;
-        case 3:
-            analogWrite(14, 0);
-            vTaskDelay(500 / portTICK_PERIOD_MS);
-            break;
-        default:
-            Serial.println("Nothing");
-            vTaskDelay(500 / portTICK_PERIOD_MS);*/
+    /*case 2:
+        analogWrite(14, 255);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        break;
+    case 3:
+        analogWrite(14, 0);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+        break;*/
+    default:
+        disengageAction(); // turn the "servo" off
+        controlRGB(0, 0, 0);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+        break;
     }
 }
 
