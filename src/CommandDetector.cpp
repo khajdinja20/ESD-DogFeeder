@@ -5,7 +5,7 @@
 #include "RingBuffer.h"
 #include "CommandDetector.h"
 #include "CommandProcessor.h"
-
+#include "ComponentCommands.h"
 #define WINDOW_SIZE 320
 #define STEP_SIZE 160
 #define POOLING_SIZE 6
@@ -96,6 +96,7 @@ void CommandDetector::run()
     long end = millis();
     Serial.println("BEST INDEX: " + (String)best_index);
     Serial.println("BEST SCORE: " + (String)best_score);
+    distanceLoop(distanceThreshold);
     //  sanity check best score and check the cool down period
     if (best_score > DETECTION_THRESHOLD && best_index != NUMBER_COMMANDS - 1 && start - m_last_detection > 1000)
     {

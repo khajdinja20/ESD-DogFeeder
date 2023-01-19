@@ -13,26 +13,29 @@ void commandQueueProcessorTask(void *param)
     while (true)
     {
         uint16_t commandIndex = 0;
-        if (xQueueReceive(commandProcessor->m_command_queue_handle, &commandIndex, portMAX_DELAY) == pdTRUE && isSomethingThere(distanceLoop(distanceThreshold)))
+        if (xQueueReceive(commandProcessor->m_command_queue_handle, &commandIndex, portMAX_DELAY) == pdTRUE)
         {
             Serial.println("COMMANDQUEUEPROCESSORTASK");
             commandProcessor->processCommand(commandIndex);
-        }
+       }
     }
 }
 
 void CommandProcessor::processCommand(uint16_t commandIndex)
 {
+    Serial.println(commandIndex);
     switch (commandIndex)
     {
     case 0:
-        // analogWrite(13, 255);
-        engageAction(); // Activate "servo"
-        controlRGB(255, 255, 255);
+        analogWrite(15, 255);
+        Serial.println("TUSAM");
+        //engageAction(); // Activate "servo"
+        //controlRGB(255, 255, 255);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         break;
     case 1:
-        // analogWrite(13, 0);
+        analogWrite(15, 0);
+        //controlRGB(0, 0, 0);
         vTaskDelay(500 / portTICK_PERIOD_MS);
         break;
     /*case 2:

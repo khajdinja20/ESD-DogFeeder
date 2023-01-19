@@ -20,7 +20,7 @@ long measureDistance()
     duration = pulseIn(echoPin, HIGH);
 
     distance = duration * 0.034 * 2; // Converting from time to distance for easier use
-
+    Serial.println("DSITANCE: " + (String)distance);
     return distance;
 }
 
@@ -58,7 +58,7 @@ void controlRGB(int redAmount, int grnAmount, int bluAmount)
 {
     analogWrite(redPin, redAmount);
     analogWrite(grnPin, grnAmount);
-    analogWrite(bluAmount, bluAmount);
+    analogWrite(bluPin, bluAmount);
 }
 
 // test if RGB led works with changeable delay between each diode
@@ -79,7 +79,7 @@ void testRGB(int delayAmount)
 }
 
 // function that checks if there is something in front of the distance senzor that is making noise, if YES it turns on an LED
-bool isSomethingThereAndNoisy(bool distance)
+bool isSomethingThere(bool distance)
 {
     if (distance)
     {
