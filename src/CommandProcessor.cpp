@@ -28,10 +28,11 @@ void CommandProcessor::processCommand(uint16_t commandIndex)
     {
     case 0:
         analogWrite(15, 255);
-        Serial.println("TUSAM");
+        Serial.println("Sleeping for:");
         //engageAction(); // Activate "servo"
         //controlRGB(255, 255, 255);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
+        esp_deep_sleep_start();
         break;
     case 1:
         analogWrite(15, 0);

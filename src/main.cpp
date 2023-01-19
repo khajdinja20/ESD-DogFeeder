@@ -12,7 +12,7 @@
 // i2s config for using the internal ADC
 i2s_config_t adcI2SConfig = {
     .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_ADC_BUILT_IN),
-    .sample_rate = 16000,
+    .sample_rate = 8000,
     .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
     .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
     .communication_format = I2S_COMM_FORMAT_I2S_LSB,
@@ -26,7 +26,7 @@ i2s_config_t adcI2SConfig = {
 // i2s config for reading from both channels of I2S
 i2s_config_t i2sMemsConfigBothChannels = {
     .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
-    .sample_rate = 16000,
+    .sample_rate = 8000,
     .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,
     .channel_format = I2S_MIC_CHANNEL,
     .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_I2S),
@@ -105,6 +105,7 @@ void setup()
 #else
   i2s_sampler->start(I2S_NUM_0, adcI2SConfig, applicationTaskHandle);
 #endif
+  esp_sleep_enable_timer_wakeup(5 * 1000000);
 }
 
 void loop()

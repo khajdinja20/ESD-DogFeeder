@@ -52,64 +52,63 @@ CommandDetector::~CommandDetector()
 
 void CommandDetector::run()
 {
-    // time how long this takes for stats
-    long start = millis();
-    // get access to the samples that have been read in
-    RingBufferAccessor *reader = m_sample_provider->getRingBufferReader();
-    // rewind by 1 second
-    reader->rewind(16000);
-    // get hold of the input buffer for the neural network so we can feed it data
-    float *input_buffer = m_nn->getInputBuffer();
-    // process the samples to get the spectrogram
-    bool is_valid = m_audio_processor->get_spectrogram(reader, input_buffer);
-    // finished with the sample reader
-    delete reader;
-    // get the prediction for the spectrogram
-    m_nn->predict();
-    // keep track of the previous 5 scores - about 0.5 seconds given current processing speed
-    for (int i = 0; i < 2; i++)
-    {
-        float prediction = std::max(m_nn->getOutputBuffer()[i], 1e-6f);
-        m_scores[m_scores_index][i] = log(is_valid ? prediction : 1e-6);
-    }
-    m_scores_index = (m_scores_index + 1) % COMMAND_WINDOW;
-    // get the best score
-    float scores[2] = {0, 0};
-    for (int i = 0; i < COMMAND_WINDOW; i++)
-    {
-        for (int j = 0; j < 2; j++)
+        // time how long this takes for stats
+        long start = millis();
+        // get access to the samples that have been read in
+        RingBufferAccessor *reader = m_sample_provider->getRingBufferReader();
+        // rewind by 1 second
+        reader->rewind(16000);
+        // get hold of the input buffer for the neural network so we can feed it data
+        float *input_buffer = m_nn->getInputBuffer();
+        // process the samples to get the spectrogram
+        bool is_valid = m_audio_processor->get_spectrogram(reader, input_buffer);
+        // finished with the sample reader
+        delete reader;
+        // get the prediction for the spectrogram
+        m_nn->predict();
+        // keep track of the previous 5 scores - about 0.5 seconds given current processing speed
+        for (int i = 0; i < 2; i++)
         {
-            scores[j] += m_scores[i][j];
+            float prediction = std::max(m_nn->getOutputBuffer()[i], 1e-6f);
+            m_scores[m_scores_index][i] = log(is_valid ? prediction : 1e-6);
         }
-    }
-    // get the best score
-    float best_score = scores[0];
-    int best_index = 0;
-    for (int i = 1; i < 2; i++)
-    {
-        if (scores[i] > best_score)
+        m_scores_index = (m_scores_index + 1) % COMMAND_WINDOW;
+        // get the best score
+        float scores[2] = {0, 0};
+        for (int i = 0; i < COMMAND_WINDOW; i++)
         {
-            best_index = i;
-            best_score = scores[i];
+            for (int j = 0; j < 2; j++)
+            {
+                scores[j] += m_scores[i][j];
+            }
         }
-    }
-    long end = millis();
-    Serial.println("BEST INDEX: " + (String)best_index);
-    Serial.println("BEST SCORE: " + (String)best_score);
-    distanceLoop(distanceThreshold);
-    //  sanity check best score and check the cool down period
-    if (best_score > DETECTION_THRESHOLD && best_index != NUMBER_COMMANDS - 1 && start - m_last_detection > 1000)
-    {
-        m_last_detection = start;
-        m_command_processor->queueCommand(best_index, best_score);
-    }
-    // compute the stats
-    m_average_detect_time = (end - start) * 0.1 + m_average_detect_time * 0.9;
-    m_number_of_runs++;
-    // log out some timing info
-    if (m_number_of_runs == 100)
-    {
-        m_number_of_runs = 0;
-        Serial.printf("Average detection time %.fms\n", m_average_detect_time);
-    }
+        // get the best score
+        float best_score = scores[0];
+        int best_index = 0;
+        for (int i = 1; i < 2; i++)
+        {
+            if (scores[i] > best_score)
+            {
+                best_index = i;
+                best_score = scores[i];
+            }
+        }
+        long end = millis();
+        Serial.println("BEST INDEX: " + (String)best_index);
+        Serial.println("BEST SCORE: " + (String)best_score);
+        //  sanity check best score and check the cool down period
+        if (best_score > DETECTION_THRESHOLD && best_index != NUMBER_COMMANDS - 1 && start - m_last_detection > 1000 && distanceLoop(distanceThreshold))
+        {
+            m_last_detection = start;
+            m_command_processor->queueCommand(best_index, best_score);
+        }
+        // compute the stats
+        m_average_detect_time = (end - start) * 0.1 + m_average_detect_time * 0.9;
+        m_number_of_runs++;
+        // log out some timing info
+        if (m_number_of_runs == 100)
+        {
+            m_number_of_runs = 0;
+            Serial.printf("Average detection time %.fms\n", m_average_detect_time);
+        }
 }
