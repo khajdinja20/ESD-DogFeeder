@@ -12,18 +12,16 @@ VSCode, PlatformIO extension, ESP32, RGB diode, sound sensor,
 
 ### Installing
 
-Step-by-step instructions on how to set up the project on a local machine.
+1. Clone this repo
+2. Open VSCode -> PlatformIO -> Open project -> This project
+3. Upload & monitor
 
 
 ## Built With
 
-* [Software or tool 1](link)
-* [Software or tool 2](link)
+* [VSCode](https://code.visualstudio.com/)
+* [PlatformIO](https://platformio.org/)
 * [Software or tool 3](link)
-
-## Contributing
-
-Please read [CONTRIBUTING.md](link) for details on our code of conduct, and the process for submitting pull requests to us.
 
 
 ## Authors
@@ -31,7 +29,4 @@ Please read [CONTRIBUTING.md](link) for details on our code of conduct, and the 
 * **Karlo Hajdinjak** - *Code relating to components*
 * **Teodor Kolar** - *Neural network*
 
-## License
-
-This project is licensed under the [License name](link) - see the [LICENSE.md](link) file for details
 
