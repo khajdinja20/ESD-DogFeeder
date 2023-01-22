@@ -8,7 +8,7 @@ Instructions on how to set up the project on a local machine for development and
 
 ### Prerequisites
 
-A list of software and tools required to set up the project, including any dependencies.
+VSCode, PlatformIO extension, ESP32, RGB diode, sound sensor, 
 
 ### Installing
 
@@ -28,16 +28,10 @@ Please read [CONTRIBUTING.md](link) for details on our code of conduct, and the 
 
 ## Authors
 
-* **[Your name](link)** - *Initial work*
-* **[Collaborator name](link)** - *Contribution*
-
-See also the list of [contributors](link) who participated in this project.
+* **Karlo Hajdinjak** - *Code relating to components*
+* **Teodor Kolar** - *Neural network*
 
 ## License
 
 This project is licensed under the [License name](link) - see the [LICENSE.md](link) file for details
 
-## Acknowledgments
-
-* Inspiration
-* etc
