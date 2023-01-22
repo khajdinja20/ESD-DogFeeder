@@ -18,7 +18,8 @@ Instructions on how to set up the project on a local machine for development and
 
 1. Clone this repo to local machine
 2. Open VSCode -> PlatformIO Home -> Open project -> This project
-3. Upload & monitor
+3. Build Filesystem Image -> Upload Filesystem Image
+4. Upload and Monitor
 
 
 ## Built With :hammer:
