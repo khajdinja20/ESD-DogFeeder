@@ -12,7 +12,8 @@ Instructions on how to set up the project on a local machine for development and
 - PlatformIO extension
 - ESP32
 - RGB diode
-- Sound sensor 
+- Microphone/sound sensor(KY-037) 
+- Ultrasound sensor(HC-SRO4)
 
 ### Installing :wrench:
 
