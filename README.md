@@ -21,7 +21,6 @@ VSCode, PlatformIO extension, ESP32, RGB diode, sound sensor,
 
 * [VSCode](https://code.visualstudio.com/)
 * [PlatformIO](https://platformio.org/)
-* [Software or tool 3](link)
 
 
 ## Authors
