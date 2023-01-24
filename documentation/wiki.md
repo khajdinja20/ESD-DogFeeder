@@ -11,7 +11,7 @@ Nakon što se hrana ispusti uređaj ulazi u deep sleep na određeno vrijeme kako
 ### Comunication diagram
 
 Iz komunikacijskog dijagrama možemo vidjeti kako ESP32 komunicira sa korištenim senzorima.
-[![Comunication diagram]](https://github.com/khajdinja20/ESD-DogFeeder/blob/master-docs/documentation/pictures/comunication%20diagram.jpg)
+[![Comunication diagram](https://github.com/khajdinja20/ESD-DogFeeder/blob/master-docs/documentation/pictures/comunication%20diagram.jpg)](https://github.com/khajdinja20/ESD-DogFeeder/blob/master-docs/documentation/pictures/comunication%20diagram.jpg)
 
 ### Fritzing
 
