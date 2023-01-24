@@ -37,3 +37,7 @@ Spremnik za spremanje pseće hrane moguće je preko vrha uređaja izvaditi iz ur
 Uređaj sadrži LED diodu koja označuje trenutno stanje uređaja. Prilikom priključivanja, uređaj izvršava „Self test“, te LED dioda će zasvijetliti crveno, zeleno te plavo. 
 Kada se nešto prepozna ispred senzora, LED dioda će zasvijetliti plavo. Prilikom prepoznavanja lajanja psa LED dioda će zatitrati plavo, što prethodi aktiviranju mehanizma za sipanje hrane.
 
+### Connection diagram
+
+Shema spajanja uređaja
+[![(https://github.com/khajdinja20/ESD-DogFeeder/blob/main/documentation/pictures/TreatBuddy.png)](https://github.com/khajdinja20/ESD-DogFeeder/blob/main/documentation/pictures/TreatBuddy.png)
