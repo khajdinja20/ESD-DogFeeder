@@ -40,4 +40,5 @@ Kada se nešto prepozna ispred senzora, LED dioda će zasvijetliti plavo. Prilik
 ### Connection diagram
 
 Shema spajanja uređaja
+
 [![(https://github.com/khajdinja20/ESD-DogFeeder/blob/main/documentation/pictures/TreatBuddy.png)](https://github.com/khajdinja20/ESD-DogFeeder/blob/main/documentation/pictures/TreatBuddy.png)
