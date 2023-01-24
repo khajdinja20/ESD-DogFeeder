@@ -17,7 +17,7 @@ Iz komunikacijskog dijagrama možemo vidjeti kako ESP32 komunicira sa korišteni
 
 
 ### Troškovnik i financijska analiza
-[![financijePUS](https://github.com/khajdinja20/ESD-DogFeeder/blob/main/documentation/pictures/financijePUS.png)
+[![Troškovnik]](https://github.com/khajdinja20/ESD-DogFeeder/blob/main/documentation/pictures/financijePUS.png)
 
 Prema prethodno navedenom troškovniku, ukupna cijena proizvodnje jednog „DogFeeder“ uređaja je 58,39 €. Dasduino mikrokontroler je glavna komponenta uređaja, te prema današnjim cijenama nalazi se oko 15,79 €. Servo motor odgovoran za sipanje psečje hrane u zdjelicu mora biti prilagođen za teži volumen, te je izabran jači servo u te potrebe. Posuda za pse, kao i držač za psečju hranu koji korisnik može napuniti po potrebi dolaze uz sam uređaj, te cijenovno iznose 12,50 €. Izabran je nešto kvalitetniji mikrofon/zvučni senzor zbog potrebe boljeg prepoznavanja lajanja od strane umjetne inteligencije. Za cijelo pakiranje ugrađenog sustava cijenovno se predviđa oko 10,00 €, te je veličine prosječnog kuhala za kavu.
 Prema podacima istraživanja , 45% prodanih pametnih hranilica za životinje su bile one s kapacitetom više od 5 litara, te je prema tome kapacitet naše hranilice 6 litara. Također, dodatna prednost je sve veća popularnost consumer IoT uređaja i pametnih domova, što daje veći poticaj vlasnicima ljubimaca da nabave pametne hranilice, pogotovo ako uzmemo u obzir da su mnogo ljudi tijekom pandemije postali vlasnici ljubimaca. 
